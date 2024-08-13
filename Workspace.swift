@@ -10,7 +10,6 @@ import ProjectDescription
 let workspace = Workspace(
     name: "PetConnect",
     projects: [
-        "Targets/PetConnect",
-        "Targets/Core"
+        "Targets/**"
     ]
 )
