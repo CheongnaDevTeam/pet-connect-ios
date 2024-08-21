@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import NetworkingInterface
 
 public struct APIDataNetworkConfig: NetworkConfigurable {
   public let baseURL: URL

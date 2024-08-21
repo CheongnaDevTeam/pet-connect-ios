@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import NetworkingInterface
 
 public class Endpoint<R>: ResponseRequestable {
   

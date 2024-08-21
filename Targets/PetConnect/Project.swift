@@ -40,5 +40,11 @@ let project = Project.makeProject(
           .release(name: "Release", xcconfig: .relativeToCurrentFile("Config/Release.xcconfig"))
         ]
     ),
+    dependencies: [
+      .project(
+        target: Project.Layer.core.layerName,
+        path: .relativeToRoot("Targets/\(Project.Layer.core.layerName)")
+      )
+    ],
     infoPlist: .extendingDefault(with: infoPlist)
 )

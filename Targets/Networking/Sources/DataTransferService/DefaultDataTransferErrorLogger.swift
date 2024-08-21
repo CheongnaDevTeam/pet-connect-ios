@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import NetworkingInterface
 
 public final class DefaultDataTransferErrorLogger: DataTransferErrorLogger {
   public init() {}
