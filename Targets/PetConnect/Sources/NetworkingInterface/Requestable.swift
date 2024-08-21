@@ -32,7 +32,7 @@ public enum HTTPMethodType: String {
 }
 
 public enum BodyEncoding {
-  case jsonSerializationDate
+  case jsonSerializationData
   case stringEncodingAscii
 }
 
