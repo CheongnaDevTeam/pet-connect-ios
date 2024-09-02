@@ -10,12 +10,14 @@ import ProjectDescription
 public extension Project {
   enum Layer: CaseIterable {
     case core
+    case designSystem
     case networking
     case networkingInterface
     
     public var layerName: String {
       switch self {
       case .core: return "Core"
+      case .designSystem: return "DesignSystem"
       case .networking: return "Networking"
       case .networkingInterface: return "NetworkingInterface"
       }
@@ -30,6 +32,7 @@ public extension Project {
     dependencies: [TargetDependency] = [],
     sources: SourceFilesList = ["Sources/**"],
     resources: ResourceFileElements? = nil,
+    entitlements: Entitlements? = nil,
     infoPlist: InfoPlist = .default
   ) -> Project {
     let app: Target = .target(
@@ -41,6 +44,7 @@ public extension Project {
       infoPlist: infoPlist,
       sources: sources,
       resources: resources,
+      entitlements: entitlements,
       dependencies: dependencies
     )
     

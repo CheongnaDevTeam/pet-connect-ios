@@ -16,6 +16,10 @@ let project = Project.makeProject(
       .project(
         target: Project.Layer.networking.layerName,
         path: .relativeToRoot("Targets/\(Project.Layer.networking.layerName)")
+      ),
+      .project(
+        target: Project.Layer.designSystem.layerName,
+        path: .relativeToRoot("Targets/\(Project.Layer.designSystem.layerName)")
       )
     ]
 )
