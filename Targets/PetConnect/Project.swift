@@ -14,19 +14,17 @@ private let infoPlist: [String: Plist.Value] = [
     "CFBundleDisplayName": "$(PRODUCT_NAME)",
     "UILaunchStoryboardName": "LaunchScreen",
     "UIUserInterfaceStyle": "Light",
-    "UIApplicationSupportsIndirectInputEvents": true,
-    "UISupportedInterfaceOrientations": ["UIInterfaceOrientationPortrait"],
-    "UIApplicationSceneManifest": [
-        "UIApplicationSupportsMultipleScenes": true,
-        "UISceneConfigurations": [
-            "UIWindowSceneSessionRoleApplication": [
-                [
-                    "UISceneConfigurationName": "Default Configuration",
-                    "UISceneDelegateClassName": "$(PRODUCT_MODULE_NAME).SceneDelegate"
-                ],
-            ]
+    "CFBundleURLTypes": [
+        [
+            "CFBundleTypeRole": "Editor",
+            "CFBundleURLSchemes": ["kakao${KAKAO_NATIVE_APP_KEY}"]
         ]
     ],
+    "KAKAO_NATIVE_APP_KEY": "${KAKAO_NATIVE_APP_KEY}",
+    "LSApplicationQueriesSchemes": ["kakaokompassauth", "kakaolink"],
+    "NSAppTransportSecurity": ["NSAllowsArbitraryLoads": true],
+    "UIApplicationSupportsIndirectInputEvents": true,
+    "UISupportedInterfaceOrientations": ["UIInterfaceOrientationPortrait"],
     "LSSupportsOpeningDocumentsInPlace": true
 ]
 
@@ -41,10 +39,29 @@ let project = Project.makeProject(
         ]
     ),
     dependencies: [
-      .project(
-        target: Project.Layer.core.layerName,
-        path: .relativeToRoot("Targets/\(Project.Layer.core.layerName)")
-      )
+      .project(target: Project.Layer.core.layerName, path: .relativeToRoot("Targets/\(Project.Layer.core.layerName)")),
+      .external(name: "ComposableArchitecture"),
+      .external(name: "KakaoSDK")
     ],
+    entitlements: .file(path: "PetConnect.entitlements"),
     infoPlist: .extendingDefault(with: infoPlist)
 )
+
+//extension Package {
+//  static let ComposableArchitecture = Package.remote(
+//      url: "https://github.com/pointfreeco/swift-composable-architecture.git",
+//      requirement: .exact("0.52.0")
+//  )
+//
+//  static let TCACoordinators = Package.remote(
+//      url: "https://github.com/johnpatrickmorgan/TCACoordinators.git",
+//      requirement: .exact("0.4.0")
+//  )
+//}
+//
+//extension TargetDependency {
+//  public struct SPM {
+//    public static let ComposableArchitecture = TargetDependency.external(name: "ComposableArchitecture")
+//    public static let TCACoordinators = TargetDependency.external(name: "TCACoordinators")
+//  }
+//}
