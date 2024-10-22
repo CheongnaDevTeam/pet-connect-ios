@@ -7,15 +7,17 @@
 //
 
 import Foundation
-import Combine
+import RxSwift
 
 public protocol NetworkService {
-  func request(endpoint: Requestable) -> AnyPublisher<Data, NetworkError>
+  func request(endpoint: Requestable) -> Observable<Data>
+//  func request(endpoint: Requestable) -> AnyPublisher<Data, NetworkError>
 }
 
 public protocol NetworkSessionManager {
   typealias NetworkingOutput = (data: Data, response: URLResponse)
-  func request(_ request: URLRequest) -> AnyPublisher<NetworkingOutput, URLError>
+  func request(_ request: URLRequest) -> Observable<NetworkingOutput>
+//  func request(_ request: URLRequest) -> AnyPublisher<NetworkingOutput, URLError>
 }
 
 public protocol NetworkErrorLogger {

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Combine
+import RxSwift
 import NetworkingInterface
 
 public final class DefaultDataTransferService {
@@ -31,39 +31,40 @@ extension DefaultDataTransferService: DataTransferService {
   
   public func request<T, E>(
     with endpoint: E
-  ) -> AnyPublisher<T, DataTransferError> where T : Decodable, T == E.Response, E : ResponseRequestable {
+  ) -> Observable<T> where T : Decodable, T == E.Response, E : ResponseRequestable {
     
     return networkService.request(endpoint: endpoint)
-      .tryMap { data -> T in
+      .map { data -> T in
         let result: T = try self.decode(data: data, decoder: endpoint.responseDecoder)
         return result
       }
-      .mapError { error -> DataTransferError in
+      .catch { error in
         self.errorLogger.log(error: error)
         
         if let networkError = error as? NetworkError {
           let transferError = self.resolve(networkError: networkError)
-          return transferError
+          throw transferError
         } else if let transferError = error as? DataTransferError {
-          return transferError
+          throw transferError
         } else {
-          return DataTransferError.resolvedNetworkFailure(error)
+          throw DataTransferError.resolvedNetworkFailure(error)
         }
       }
-      .eraseToAnyPublisher()
   }
   
   public func request<E>(
     with endpoint: E
-  ) -> AnyPublisher<Data, DataTransferError> where E: ResponseRequestable, E.Response == Data {
+  ) -> Observable<Data> where E: ResponseRequestable, E.Response == Data {
     
     return networkService.request(endpoint: endpoint)
-      .mapError { networkError -> DataTransferError in
-        self.errorLogger.log(error: networkError)
-        let transferError = self.resolve(networkError: networkError)
-        return transferError
+      .catch { error in
+        self.errorLogger.log(error: error)
+        guard let mapError = error as? NetworkError else {
+          throw NetworkError.generic(error) // FIXME: 임시값 대입한 것
+        }
+        let transferError = self.resolve(networkError: mapError)
+        throw transferError
       }
-      .eraseToAnyPublisher()
   }
   
   private func decode<T: Decodable>(data: Data, decoder: ResponseDecoder) throws -> T {

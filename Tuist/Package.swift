@@ -15,8 +15,10 @@ import PackageDescription
 let package = Package(
     name: "PetConnectIos",
     dependencies: [
-      .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "1.0.0"),
-      .package(url: "https://github.com/kakao/kakao-ios-sdk", branch: "master")
+      .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "6.7.0"),
+      .package(url: "https://github.com/ReactorKit/ReactorKit.git", from: "3.2.0"),
+      .package(url: "https://github.com/kakao/kakao-ios-sdk-rx.git", from: "2.22.0"),
+      .package(url: "https://github.com/SnapKit/SnapKit.git", from: "5.7.1")
         // Add your own dependencies here:
         // .package(url: "https://github.com/Alamofire/Alamofire", from: "5.0.0"),
         // You can read more about dependencies here: https://docs.tuist.io/documentation/tuist/dependencies

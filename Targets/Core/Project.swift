@@ -13,13 +13,7 @@ let project = Project.makeProject(
     product: .staticFramework,
     settings: .settings(base: .init().swiftCompilationMode(.wholemodule)),
     dependencies: [
-      .project(
-        target: Project.Layer.networking.layerName,
-        path: .relativeToRoot("Targets/\(Project.Layer.networking.layerName)")
-      ),
-      .project(
-        target: Project.Layer.designSystem.layerName,
-        path: .relativeToRoot("Targets/\(Project.Layer.designSystem.layerName)")
-      )
+      .external(name: "RxSwift"),
+      .external(name: "RxKakaoSDK")
     ]
 )

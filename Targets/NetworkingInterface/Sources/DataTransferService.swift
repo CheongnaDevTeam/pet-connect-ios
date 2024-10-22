@@ -7,11 +7,13 @@
 //
 
 import Foundation
-import Combine
+import RxSwift
 
 public protocol DataTransferService {
-  func request<T: Decodable, E: ResponseRequestable>(with endpoint: E) -> AnyPublisher<T, DataTransferError> where E.Response == T
-  func request<E: ResponseRequestable>(with endpoint: E) -> AnyPublisher<Data, DataTransferError> where E.Response == Data
+  func request<T: Decodable, E: ResponseRequestable>(with endpoint: E) -> Observable<T> where E.Response == T
+//  func request<T: Decodable, E: ResponseRequestable>(with endpoint: E) -> AnyPublisher<T, DataTransferError> where E.Response == T
+  func request<E: ResponseRequestable>(with endpoint: E) -> Observable<Data> where E.Response == Data
+//  func request<E: ResponseRequestable>(with endpoint: E) -> AnyPublisher<Data, DataTransferError> where E.Response == Data
 }
 
 public enum DataTransferError: Error {
