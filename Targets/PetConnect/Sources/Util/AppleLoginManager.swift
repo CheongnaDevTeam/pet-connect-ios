@@ -9,22 +9,19 @@
 import Foundation
 import AuthenticationServices
 
-import Combine
+import RxSwift
 
 public final class AppleLoginManager: NSObject {
-  public var continuation: CheckedContinuation<ASAuthorization, Error>?
+  public var authorizationRelay: PublishSubject<ASAuthorization> = .init()
   
-  public func signInWithApple() async throws -> ASAuthorization {
-    return try await withCheckedThrowingContinuation { continuation in
-      self.continuation = continuation
-      let request = ASAuthorizationAppleIDProvider().createRequest()
-      request.requestedScopes = [.fullName, .email]
-      
-      let controller = ASAuthorizationController(authorizationRequests: [request])
-      controller.delegate = self
-      controller.presentationContextProvider = self
-      controller.performRequests()
-    }
+  public func signInWithApple() {
+    let request = ASAuthorizationAppleIDProvider().createRequest()
+    request.requestedScopes = [.fullName, .email]
+    
+    let controller = ASAuthorizationController(authorizationRequests: [request])
+    controller.delegate = self
+    controller.presentationContextProvider = self
+    controller.performRequests()
   }
 }
 
@@ -33,16 +30,14 @@ extension AppleLoginManager: ASAuthorizationControllerDelegate {
     controller: ASAuthorizationController,
     didCompleteWithAuthorization authorization: ASAuthorization
   ) {
-    continuation?.resume(returning: authorization)
-    continuation = nil
+    authorizationRelay.onNext(authorization)
   }
   
   public func authorizationController(
     controller: ASAuthorizationController,
     didCompleteWithError error: Error
   ) {
-    continuation?.resume(throwing: error)
-    continuation = nil
+    authorizationRelay.onError(error)
   }
 }
 

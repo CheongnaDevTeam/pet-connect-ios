@@ -10,9 +10,11 @@ import DesignSystem
 import UIKit
 
 import KakaoSDKAuth
+import RIBs
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   
+  private var launchRouter: LaunchRouting?
   var window: UIWindow?
   
   func scene(_ scene: UIScene,
@@ -20,10 +22,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
              options connectionOptions: UIScene.ConnectionOptions) {
     
     guard let windowScene = (scene as? UIWindowScene) else { return }
-    window = UIWindow(windowScene: windowScene)
-    let rootVC = LoginViewController()
-    window?.rootViewController = rootVC
-    window?.makeKeyAndVisible()
+    self.window = UIWindow(windowScene: windowScene)
+    let launchRouter = RootBuilder(dependency: AppComponent()).build()
+    self.launchRouter = launchRouter
+    launchRouter.launch(from: window!)
   }
   
   func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {

@@ -10,17 +10,9 @@ import UIKit
 import RxSwift
 import ReactorKit
 
-class BaseViewController<T: Reactor>: UIViewController, View {
+class BaseViewController: UIViewController {
   // MARK: Properties
   var disposeBag = DisposeBag()
-  
-  var reactor: T? {
-    didSet {
-      if let reactor = reactor {
-        self.bind(reactor: reactor)
-      }
-    }
-  }
   
   // MARK: Initializers
   init() {
@@ -34,27 +26,15 @@ class BaseViewController<T: Reactor>: UIViewController, View {
   // MARK: Overrides
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.setupViewHierarchy()
-    self.setupViewLayout()
-    self.setupInitialView()
+    self.setupView()
+    self.setupInitialDisplay()
   }
   
   // MARK: Methods
-  func bind(reactor: T) {
-    
-  }
+  func setupView() {}
   
-  /// addSubView() 를 통해 하위 뷰를 추가합니다.
-  func setupViewHierarchy() {
-    
-  }
-  
-  /// 뷰간 제약을 설정합니다.
-  func setupViewLayout() {
-    
-  }
-  
-  final func setupInitialView() {
+  final func setupInitialDisplay() {
     view.backgroundColor = .systemBackground
+    navigationController?.isNavigationBarHidden = true
   }
 }
