@@ -46,6 +46,15 @@
       }
     },
     {
+      "identity" : "ribs",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/uber/RIBs.git",
+      "state" : {
+        "revision" : "a7e92325978a3a34ef3b36e92090c06abab81462",
+        "version" : "0.16.3"
+      }
+    },
+    {
       "identity" : "rxalamofire",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/RxSwiftCommunity/RxAlamofire.git",

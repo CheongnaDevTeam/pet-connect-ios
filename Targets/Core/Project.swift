@@ -14,6 +14,7 @@ let project = Project.makeProject(
     settings: .settings(base: .init().swiftCompilationMode(.wholemodule)),
     dependencies: [
       .external(name: "RxSwift"),
-      .external(name: "RxKakaoSDK")
+      .external(name: "RxKakaoSDK"),
+      .external(name: "RIBs")
     ]
 )

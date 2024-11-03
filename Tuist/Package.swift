@@ -15,6 +15,7 @@ import PackageDescription
 let package = Package(
     name: "PetConnectIos",
     dependencies: [
+      .package(url: "https://github.com/uber/RIBs.git", from: "0.14.1"),
       .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "6.7.0"),
       .package(url: "https://github.com/ReactorKit/ReactorKit.git", from: "3.2.0"),
       .package(url: "https://github.com/kakao/kakao-ios-sdk-rx.git", from: "2.22.0"),
